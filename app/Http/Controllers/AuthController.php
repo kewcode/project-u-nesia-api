@@ -11,6 +11,15 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+
+    // login And Redirect To App With Send Token
+    public function login($domainName)
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $token = $user->createToken($domainName)->accessToken;
+        return redirect("https://".$domainName ."?token=".$token);
+    }
+
     // Redirect Provider
     public function redirectToProvider($providerName)
     {
@@ -23,7 +32,7 @@ class AuthController extends Controller
         $userProvider = Socialite::driver($providerName)->user();
         $authUser = $this->findOrCreateUser($userProvider, $providerName);
         Auth::login($authUser, true);
-        return redirect('/');
+        return redirect('/app');
     }
     
     // Find Or Create User
@@ -38,17 +47,31 @@ class AuthController extends Controller
         }
         else{
 
-            $newUser = new User;
-            $newUser->name =  $userProvider->name;
-            $newUser->email    = !empty($userProvider->email)? $userProvider->email : '' ;
-            $newUser->save();
+            $emailDuplicate = User::where('email', $userProvider->email)->first();
 
+            $newUserId = null;
+
+            if(!$emailDuplicate){
+                $newUser = new User;
+                $newUser->name =  $userProvider->name;
+                $newUser->email    = !empty($userProvider->email)? $userProvider->email : '' ;
+                $newUser->save();
+                $newUserId = $newUser->id;
+            }else{
+                $newUserId = $emailDuplicate->id;
+            }
             $newProvider = new provider;
             $newProvider->provider = $providerName;
+            $newProvider->user_id = $newUserId;
             $newProvider->token = $userProvider->id;
-            $newProvider->user();
+            $newProvider->save();
 
-            return $newUser;
+            if(!$emailDuplicate){
+                return $newUser;
+            }else{
+                return $emailDuplicate;
+            }
+            
         }
     }
 

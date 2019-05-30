@@ -7,14 +7,36 @@
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                <div class="card-body row">
 
-                    You are logged in!
+                    <div class="col-sm-6 col-lg-6 mt-2">
+                        <a href="{{ url('v0/login/chat.u-nesia.com')}}" class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            U-CHAT
+                        </a>
+                        <a href="{{ url('v0/login/curhat.u-nesia.com')}}" class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            U-CURHAT
+                        </a>
+                        <a class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            U-HUNGRY
+                        </a>
+                        <a class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            U-STORE
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-lg-6 mt-2">
+                        <a class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            U-PORTFOLIO
+                        </a>
+                        <a class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            U-WORK
+                        </a>
+                        <a class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            BOSQUE
+                        </a>
+                        <a class="btn btn-block btn-primary" style="padding:20px 0px;" href="#">
+                            FOODIES
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

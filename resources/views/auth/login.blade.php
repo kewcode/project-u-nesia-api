@@ -1,81 +1,190 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login u-nesia</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            color: #666;
+            text-decoration: none
+        }
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+        a:hover {
+            color: #999;
+        }
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+        .u-container,
+        .u-form,
+        .u-btn,
+        .u-title,
+        .sub-title,
+        .u-input-group,
+        .u-label,
+        .u-logo,
+        .u-image,
+        .login-with {
+            float: left;
+            width: 100%;
+        }
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+        .u-container {
+            width: 100%;
+            padding: 5% 15%;
+        }
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        .u-form {
+            width: 40%;
+            margin: 0 30%;
+            border: 1px solid #f1f1f1;
+            padding: 20px 16px;
+            border-radius: 7px;
+            box-shadow: 1px 1px 2px #f1f1f1;
+        }
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+        .u-title {
+            margin: 14px 0;
+            font-size: 12px;
+            text-align: center;
+        }
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+        .u-input-group {
+            width: 100%;
+        }
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        .u-label {
+            padding: 10px 12px;
+            transition: 0.2s ease all;
+        }
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+        .u-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 50px;
+            border: 1px solid #ccc;
+        }
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+        .u-input:focus {
+            outline: none;
+            border: 1px solid #666
+        }
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+        .u-logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: darkcyan;
+            text-align: center
+        }
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <a href="{{ url('/auth/github') }}" class="btn btn-github"><i class="fa fa-github"></i> Github</a>
-                                <a href="{{ url('/auth/google') }}" class="btn btn-google"><i class="fa fa-google"></i> Google</a>
-                                <a href="{{ url('/auth/twitter') }}" class="btn btn-twitter"><i class="fa fa-twitter"></i> Twitter</a>
-                                <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i> Facebook</a>
-                            </div>
-                        </div>
-                    </form>
+        .u-btn {
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: 50px;
+            background: darkcyan;
+            border: 0;
+            color: #f1f1f1;
+            cursor: pointer;
+            opacity: .5;
+        }
+
+        .u-btn:hover {
+            opacity: .8;
+            color: #fff;
+        }
+
+        .google {
+            width: 48%;
+            margin: 10px 1%;
+            background: red;
+        }
+
+        .facebook {
+            width: 48%;
+            margin: 10px 1%;
+            background: blue;
+        }
+
+        .login-with {
+            text-align: center;
+        }
+
+        .btn-register {
+            text-align: right;
+            float: right;
+            padding: 10px 16px;
+        }
+        .error-label{
+            float: left;
+            font-size: 12px;
+            text-align: center;
+            padding: 5px 10px;
+            width: 100%;
+            color: red;
+            opacity: .5;
+        }
+        .error-label:hover{opacity: .8}
+        @media screen and (max-width:800px) {
+            .u-form {
+                width: 100%;
+                margin: 0;
+                margin-top: 40px;
+                border: 0;
+            }
+
+            .u-container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="u-container">
+        <form method="POST" action="{{ route('login') }}" class="u-form">
+            @csrf
+            <h1 class="u-logo">U-NESIA</h1>
+            <h2 class="u-title">Login Account</h2>
+            @error('*')
+                <span class="error-label">
+                    {{ $message }}
+                </span>
+            @enderror
+            <div class="u-input-group">
+                <label class="u-label">
+                    Email
+                </label>
+                <input value="{{ old('email') }}" name="email" required placeholder="Enter your Email" type="email" class="u-input">
+            </div>
+            <div class="u-input-group">
+                <label class="u-label">
+                    Password
+                </label>
+                <input value="{{ old('password') }}" name="password" required placeholder="Enter your Password" type="password" class="u-input">
+            </div>
+            <button type="submit" class="u-btn">
+                Login
+            </button>
+            <div class="login-with">
+                <div class="u-input-group">
+                    <a class="u-label" href="{{ route('password.request') }}">
+                        {{ __('Forgot Your Password?') }}
+                    </a>
+                </div>
+                <label class="u-label">Login With : </label>
+                <a href="{{ url('/auth/facebook') }}" class="u-btn facebook">Facebook</a>
+                <a href="{{ url('/auth/google') }}" class="u-btn google">Google</a>
+                <div class="u-input-group">
+                    <a href="/register" class="btn-register">
+                        Register
+                    </a>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-@endsection
+        </form>
+    </section>
+</body>
+</html>
